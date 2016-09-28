@@ -1,27 +1,21 @@
-var express     = require('express'), 
+var express     = require('express'),
     app         = express(),
     bodyParser  = require('body-parser'),
-    mongoose    = require('mongoose');
+    mongoose    = require('mongoose'),
+    Campground = require('./models/campground')
 
 mongoose.connect('mongodb://localhost/yelp_camp');
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine','ejs');
 
 
-var campgroundSchema = new mongoose.Schema({
-    name: String,
-    image: String,
-    description: String
-});
-
-var Campground = mongoose.model('Campground', campgroundSchema);
 
 Campground.create(
     {
         name: 'bear canyon',
         image:'https://farm9.staticflickr.com/8422/7842069486_c61e4c6025.jpg',
         description: 'watch out for bears'
-        
+
     },
     function(err, campground){
         if (err) {
@@ -77,5 +71,5 @@ app.get('/campgrounds/:id', function(req, res) {
 });
 
 app.listen(3000, function(){
-    console.log('serves up');
+    console.log("serve's up");
 });
