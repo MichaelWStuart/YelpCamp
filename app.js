@@ -2,33 +2,35 @@ var express     = require('express'),
     app         = express(),
     bodyParser  = require('body-parser'),
     mongoose    = require('mongoose'),
-    Campground = require('./models/campground')
+    Campground  = require('./models/campground'),
+    seedDB      = require('./seeds')
 
+seedDB();
 mongoose.connect('mongodb://localhost/yelp_camp');
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine','ejs');
 
 
 
-Campground.create(
-    {
-        name: 'bear canyon',
-        image:'https://farm9.staticflickr.com/8422/7842069486_c61e4c6025.jpg',
-        description: 'watch out for bears'
-
-    },
-    function(err, campground){
-        if (err) {
-            console.log(err);
-        } else {
-            console.log('newly created campground');
-            console.log(campground);
-        }
-    });
-
-app.get('/',function(req,res){
-    res.render('landing');
-});
+// Campground.create(
+//     {
+//         name: 'bear canyon',
+//         image:'https://farm9.staticflickr.com/8422/7842069486_c61e4c6025.jpg',
+//         description: 'watch out for bears'
+//
+//     },
+//     function(err, campground){
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             console.log('newly created campground');
+//             console.log(campground);
+//         }
+//     });
+//
+// app.get('/',function(req,res){
+//     res.render('landing');
+// });
 
 
 app.get('/campgrounds',function(req,res){
@@ -37,7 +39,7 @@ app.get('/campgrounds',function(req,res){
             console.log(err);
         } else {
             res.render('index',{campgrounds:allCampgrounds});
-        }    
+        }
     });
 });
 
