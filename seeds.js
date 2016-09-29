@@ -37,7 +37,7 @@ function seedDB(){
           //create a comment
           Comment.create(
             {
-              text: 'Such nature!'
+              text: 'Such nature!',
               author: 'Myself'
             }, function(err, comment){
               if(err){
