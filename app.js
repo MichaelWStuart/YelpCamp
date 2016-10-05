@@ -27,6 +27,11 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+app.use(function(req, res, next){
+  res.locals.currentUser = req.user;
+  next();
+});
+
 //DEFAULT
 app.get('/', function(req, res){
   res.render('landing');
@@ -39,7 +44,7 @@ app.get('/campgrounds',function(req,res){
         if (err) {
             console.log(err);
         } else {
-            res.render('campgrounds/index',{campgrounds:allCampgrounds});
+            res.render('campgrounds/index',{campgrounds:allCampgrounds, currentUser: req.user});
         }
     });
 });
@@ -91,7 +96,7 @@ app.get('/campgrounds/:id/comments/new', isLoggedIn, function(req, res){
   });
 });
 
-app.post('/campgrounds/:id/comments', function(req, res){
+app.post('/campgrounds/:id/comments', isLoggedIn, function(req, res){
     Campground.findById(req.params.id, function(err, campground){
       if (err){
         console.log(err);
