@@ -23,6 +23,9 @@ app.use(methodOverride('_method'));
 app.use(flash());
 //seedDB();
 
+app.set('port', (process.env.PORT || 3000));
+
+
 //PASSPORT CONFIGURATION
 app.use(require('express-session')({
   secret: 'mellon',
@@ -46,6 +49,6 @@ app.use(indexRoutes);
 app.use('/campgrounds/:id/comments', commentRoutes);
 app.use('/campgrounds', campgroundRoutes);
 
-app.listen(3000, function(){
-    console.log("serve's up");
+app.listen(app.get('port'), function(){
+    console.log("serve's up at port:", app.get('port'));
 });
